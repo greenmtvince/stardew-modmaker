@@ -127,16 +127,33 @@ namespace stardewmodmaker_app.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<DialogueLine>> DeleteDialogueLine(int id)
         {
-            var dialogueLine = await _context.DialogueLine.FindAsync(id);
-            if (dialogueLine == null)
+            //Get the User ID
+            var userClaims = User.Claims.ToList();
+
+            string userId = "";
+
+            if (userClaims.Count > 0)
             {
-                return NotFound();
+                userId = User.Claims.ToList().FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value;
+
+
+                var dialogueLine = await _context.DialogueLine.FindAsync(id);
+                if (dialogueLine == null)
+                {
+                    return NotFound();
+                }
+                //Simply return not found to not alert that any difference between not exist and not authorized.
+                if (dialogueLine.ownerId != userId)
+                {
+                    return NotFound();
+                }
+
+                _context.DialogueLine.Remove(dialogueLine);
+                await _context.SaveChangesAsync();
+
+                return dialogueLine;
             }
-
-            _context.DialogueLine.Remove(dialogueLine);
-            await _context.SaveChangesAsync();
-
-            return dialogueLine;
+            return Unauthorized();
         }
 
         private bool DialogueLineExists(int id)
