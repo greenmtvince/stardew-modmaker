@@ -17,5 +17,7 @@ namespace stardewmodmaker_app.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+        public DbSet<stardewmodmaker_app.Models.DialogueEntry> DialogueEntry { get; set; }
+        public DbSet<stardewmodmaker_app.Models.DialogueLine> DialogueLine { get; set; }
     }
 }

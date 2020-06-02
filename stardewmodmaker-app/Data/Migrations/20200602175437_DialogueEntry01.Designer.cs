@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using stardewmodmaker_app.Data;
 
 namespace stardewmodmaker_app.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200602175437_DialogueEntry01")]
+    partial class DialogueEntry01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,38 +455,6 @@ namespace stardewmodmaker_app.Data.Migrations
                     b.ToTable("DialogueLine");
                 });
 
-            modelBuilder.Entity("stardewmodmaker_app.Models.DialogueReply", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("dialogue_line_ref")
-                        .HasColumnType("int");
-
-                    b.Property<short>("friendshipBonus")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("modId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ownerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("responseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("dialogue_line_ref");
-
-                    b.ToTable("DialogueReply");
-                });
-
             modelBuilder.Entity("stardewmodmaker_app.Models.DialogueResponse", b =>
                 {
                     b.Property<int>("id")
@@ -582,13 +552,6 @@ namespace stardewmodmaker_app.Data.Migrations
                     b.HasOne("stardewmodmaker_app.Models.DialogueEntry", "DialogueEntry")
                         .WithMany("DialogueLines")
                         .HasForeignKey("dialogue_entry_ref");
-                });
-
-            modelBuilder.Entity("stardewmodmaker_app.Models.DialogueReply", b =>
-                {
-                    b.HasOne("stardewmodmaker_app.Models.DialogueLine", "DialogueLine")
-                        .WithMany("questionReplies")
-                        .HasForeignKey("dialogue_line_ref");
                 });
 
             modelBuilder.Entity("stardewmodmaker_app.Models.DialogueResponse", b =>

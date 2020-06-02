@@ -17,6 +17,7 @@ namespace stardewmodmaker_app.Models
         public string letterId { get; set; }
         public byte order { get; set; }
         public byte portrait { get; set; }
+        public virtual ICollection<DialogueReply> questionReplies { get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string randomItems { get; set; }
