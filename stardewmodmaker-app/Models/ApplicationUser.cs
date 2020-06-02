@@ -8,7 +8,7 @@ namespace stardewmodmaker_app.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string username { get; set; }
+        public string nickname { get; set; }
         public string nexusModId { get; set; }
     }
 }
