@@ -63,7 +63,7 @@
 
     </div>
         
-    <div class="col-sm-3" style="background-color:darkolivegreen" *ngIf="dialogueLine.endStyle<3">
+    <div class="col-sm-3" *ngIf="dialogueLine.endStyle<3">
         <app-portrait-select [characterName]="selectedCharacter" [(portraitNumber)]="dialogueLine.portrait"></app-portrait-select>
     </div>
 </div>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             
-            <div class="col-sm-3" style="background-color:navy">
+            <div class="col-sm-3">
                 <app-portrait-select [characterName]="selectedCharacter" [(portraitNumber)]="response.portrait"></app-portrait-select>
             </div>
             

@@ -4,4 +4,13 @@
     overflow: hidden;
     height: 64px;
     width: 64px;
+    border-width: 0px;
+    border-style: solid;
+    box-shadow: 
+    0 0 0 1px #eca65f,
+	0 0 0 3px #b14e05,
+	0 0 0 6px #dc7b05,
+	0 0 0 7px #5b2b2a;
+    margin: 7px;
+    border-radius: 3px;
 }

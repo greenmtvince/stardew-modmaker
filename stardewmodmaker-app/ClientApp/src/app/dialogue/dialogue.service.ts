@@ -146,6 +146,8 @@ export class DialogueService {
   setSelectedCharacter(characterName: string){
     this._selectedCharacter = characterName;
     this.selectedCharacter.next(this._selectedCharacter);
+    this.setSelectedDialogueEntry(<DialogueEntry>{});
+    this.setSelectedDialogueLine(<DialogueLine>{});
     this.dialogueEntries.next(this._dialogueEntries.filter(entry=>entry.characterName == this._selectedCharacter));
   }
 

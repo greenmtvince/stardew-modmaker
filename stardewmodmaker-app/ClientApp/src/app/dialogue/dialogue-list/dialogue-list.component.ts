@@ -125,7 +125,9 @@ export class DialogueListComponent implements OnInit {
       portrait: 0,
       endStyle: 1,
       switchGender: false,
-      showFirst: false
+      showFirst: false,
+      dialogueResponses: [],
+      questionReplies: []
     }
   }
 

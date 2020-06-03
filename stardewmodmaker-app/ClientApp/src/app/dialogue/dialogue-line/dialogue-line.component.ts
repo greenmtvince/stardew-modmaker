@@ -105,7 +105,10 @@ export class DialogueLineComponent implements OnInit {
     console.log("DialogueLine.Component.saveLine()");
     //Ensure friendship bonus is a number because the API is a prima dona.  
     //"Waaahhh, I'm supposed to have a number, but I got a string, I couldn't possibly assed to use a TryParseInt"
-    this.dialogueLine.questionReplies.forEach(reply => reply.friendshipBonus = Number(reply.friendshipBonus));
+    if(this.dialogueLine.questionReplies!=null && this.dialogueLine.questionReplies.length>0){
+      this.dialogueLine.questionReplies.forEach(reply => reply.friendshipBonus = Number(reply.friendshipBonus));
+    }
+    
     this.dialogueService.putDialogueLine(this.dialogueLine);
   }
 
