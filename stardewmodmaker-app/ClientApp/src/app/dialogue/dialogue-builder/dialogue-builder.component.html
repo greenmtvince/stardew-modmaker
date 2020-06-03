@@ -1,0 +1,20 @@
+<div>
+    <div class="split leftCol">
+        <div class="charSel">
+            <app-character-select [characterName]="selectedCharacter" (characterNameChange)="changeSelectedCharacter($event)"></app-character-select>
+        </div>
+        <div class="lister">
+            <app-dialogue-list></app-dialogue-list>
+        </div>
+    </div>
+    <div class="split rightCol">
+        <div class="previewer">
+            <app-dialogue-preview></app-dialogue-preview>
+        </div>
+        <div class="lineBuilder">
+            <app-dialogue-line></app-dialogue-line>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,17 @@
+.listItem {
+    margin-left: 20px;
+}
+
+.dialogueKey{
+    width: 70%;
+    display: inline-block;
+}
+
+.dialogueConditions{
+    width: 30%;
+    display: inline-block;
+}
+
+ul {
+    list-style: none;
+}

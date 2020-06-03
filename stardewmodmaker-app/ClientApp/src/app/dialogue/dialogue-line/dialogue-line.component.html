@@ -1,0 +1,126 @@
+<span *ngIf="isEmpty">Select a Dialogue Line</span>
+
+<div class="row" *ngIf="!isEmpty" style="margin-left: 5px;">
+    <div class="col-sm-8" >
+        <div class="row">
+            <select id="s1" (change)="selectChange($event)">
+                <option value="">Insert Replacer Text</option>
+                <option *ngFor="let item of replacerArray" label="{{item.name}}" value="{{item.value}}"></option>
+            </select>
+        </div>
+        <div class="row" *ngIf="dialogueLine.showFirst">
+            <div  class="inputRow">
+                <img class="gendericon" src="/icons/male.png" *ngIf="dialogueLine.switchGender"/>
+                <div class="inputLabel">
+                    <span >1st Time</span>
+                </div>
+                <input class="inputField" type="text" name="firstTimeText" [value]="dialogueLine.firstTimeText" [(ngModel)]="dialogueLine.firstTimeText" (focus)="textboxChanged($event)">
+            </div>
+        </div>
+        <div class="row" >
+            <div class="inputRow">
+                <img class="gendericon" src="/icons/male.png" *ngIf="dialogueLine.switchGender"/>
+                <div class="inputLabel" *ngIf="dialogueLine.showFirst">
+                    <span  >n-th Time</span>
+                </div>
+                <input class="inputField" type="text" name="textDefault" [value]="dialogueLine.textDefault" [(ngModel)]="dialogueLine.textDefault" (focus)="textboxChanged($event)" #r>
+                
+            </div>
+        </div>
+        <div class="row" *ngIf="dialogueLine.switchGender && dialogueLine.showFirst">
+            <div class="inputRow">
+                <img class="gendericon" src="/icons/female.png" />
+                <div class="inputLabel"  *ngIf="dialogueLine.showFirst">
+                    <span>1st Time</span >
+                </div>
+                <input class="inputField" type="text" name="firstTimeFemale" [value]="dialogueLine.firstTimeFemale" [(ngModel)]="dialogueLine.firstTimeFemale" *ngIf="dialogueLine.showFirst" (focus)="textboxChanged($event)">
+            </div>
+        </div>
+        <div class="row" *ngIf="dialogueLine.switchGender">
+            <div class="inputRow">
+                <img class="gendericon" src="/icons/female.png" />
+                <div class="inputLabel" *ngIf="dialogueLine.showFirst">
+                    <span >n-th Time</span>
+                </div>
+                <input class="inputField" type="text" name="textFemale" [value]="dialogueLine.textFemale" [(ngModel)]="dialogueLine.textFemale" (focus)="textboxChanged($event)">    
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="gender" [(ngModel)]="dialogueLine.switchGender" [checked]="dialogueLine.switchGender" >Gender Specific
+                <input type="checkbox" name="showFirst" [(ngModel)]="dialogueLine.showFirst" [checked]="dialogueLine.showFirst" *ngIf="dialogueLine.endStyle!=3"><span *ngIf="dialogueLine.endStyle!=3">First Time</span>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <span>Dialogue Box Style: </span>
+                <input type="radio" id="end1" name="endStyle" [value]="1" [(ngModel)]="dialogueLine.endStyle" [checked]="dialogueLine.endStyle==1" (change)="changeRadio()"> End
+                <input type="radio" id="end2" name="endStyle" [value]="2" [(ngModel)]="dialogueLine.endStyle" [checked]="dialogueLine.endStyle==2" (change)="changeRadio()"> Pause 
+                <input type="radio" id="end3" name="endStyle" [value]="3" [(ngModel)]="dialogueLine.endStyle" [checked]="dialogueLine.endStyle==3" (change)="changeRadio()"> Question
+                <input type="radio" id="end4" name="endStyle" [value]="4" [(ngModel)]="dialogueLine.endStyle" [checked]="dialogueLine.endStyle==4" (change)="changeRadio()"> Generic 
+            </div>
+        </div>
+
+    </div>
+        
+    <div class="col-sm-3" style="background-color:darkolivegreen" *ngIf="dialogueLine.endStyle<3">
+        <app-portrait-select [characterName]="selectedCharacter" [(portraitNumber)]="dialogueLine.portrait"></app-portrait-select>
+    </div>
+</div>
+<div class="row" *ngIf="!isEmpty && dialogueLine.endStyle==3" style="margin-left: 5px;">
+    <div class="col-sm-12">
+        <div class="row">
+            <span>Question Replies</span><br/>
+        </div>
+        <div class="row">
+            <ol style="width: 90%;">
+                <li *ngFor="let questionReply of dialogueLine.questionReplies">
+                    <app-dialogue-reply [dialogueReply]="questionReply"></app-dialogue-reply>
+                </li>
+            </ol>
+        </div>
+        <div class="row">
+            <span>Answer Responses</span><br/>
+        </div>
+        <div class="row" *ngFor="let response of dialogueLine.dialogueResponses; let i = index">
+            <div class="col-sm-8">
+                <div class="inputRow">
+                    <span>Response to answer: "{{dialogueLine.questionReplies[i].text}}"</span>
+                </div>
+                <div class="row">
+                    <div class="inputRow">
+                        <img class="gendericon" src="/icons/male.png" *ngIf="response.switchGender"/>
+                        <input class="inputField" type="text" name="textDefault" [value]="response.textDefault" [(ngModel)]="response.textDefault" (focus)="textboxChanged($event)">
+                    </div>
+                </div>
+                <div class="row" *ngIf="response.switchGender">
+                    <div class="inputRow">
+                        <img class="gendericon" src="/icons/female.png" />
+                        <input class="inputField" type="text" name="textFemale" [value]="response.textFemale" [(ngModel)]="response.textFemale" (focus)="textboxChanged($event)">    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inputRow">
+                        <input type="checkbox" name="switchGender" [(ngModel)]="response.switchGender" [checked]="response.switchGender"> Gender Specific
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inputRow">
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-3" style="background-color:navy">
+                <app-portrait-select [characterName]="selectedCharacter" [(portraitNumber)]="response.portrait"></app-portrait-select>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+    <div>
+        <button (click)="saveLine()">SAVE</button>
+    </div>
+</div>

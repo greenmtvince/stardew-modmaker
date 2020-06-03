@@ -1,0 +1,38 @@
+<div class="viewport">
+    <div class="buttonHolder">
+        <button (click)="previewMode=3">Debug</button>
+        <button (click)="previewMode=1">Previewer</button>
+        <button (click)="previewMode=2">JSON</button>
+    </div>
+    <!-- Debug  -->
+    <div *ngIf="previewMode==3">
+        <pre>{{dialogueEntry | json}}</pre>
+    </div>
+    <!-- Previewer -->
+    <!-- <div *ngIf="previewMode==1" class="previewView">
+        <div class="spriteHolder">
+            <div class="spriteSelector">
+                <img src="/Characters/{{dialogueEntry.characterName}}.png"/>
+            </div>
+        </div>
+        <div class="dialogueHolder">
+            <div class="dialogueLines">
+                <p>{{displayedText}}</p>
+            </div>
+            <div class="portraitHolder">
+                <img src="Cursors/portrait_bg.png" class="portraitBg"/>
+                <div class="portraitSelect">
+                    <img src="/Portraits/{{dialogueEntry.characterName}}.png" [ngStyle]="{'position' : 'relative', 'left' : portraitX+'px', 'top' : portraitY+'px' }"/>
+                </div>
+                <div class="portraitName" >
+                    <p>{{dialogueEntry.characterName}}</p>
+                </div>
+                <div class="portraitIcon">
+
+                </div>
+            </div>
+            
+        </div>
+    </div> -->
+</div>
+

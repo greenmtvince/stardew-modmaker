@@ -1,0 +1,19 @@
+img {
+    height: 64px;
+    image-rendering: pixelated;
+}
+
+.portraitBox {
+    width:20%;
+    text-align: center;
+}
+
+.nameBox {
+    width:80%;
+    text-align: center;
+}
+
+table {
+    width:100%;
+    height:100%;
+}

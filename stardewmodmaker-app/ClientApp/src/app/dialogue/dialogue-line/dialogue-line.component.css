@@ -1,0 +1,22 @@
+:host{
+    background-color: tan;
+    color: brown;
+}
+
+.inputLabel {
+    width: 15%;
+    display: inline-block;
+}
+
+.inputField {
+    width: 75%;
+    border-radius: 4px;
+}
+
+.inputRow {
+    width: 100%;
+}
+
+.linebuilder {
+    overflow-y:auto
+}

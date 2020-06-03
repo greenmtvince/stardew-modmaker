@@ -92,6 +92,16 @@ namespace stardewmodmaker_app.Controllers
                     return Unauthorized();
                 }
 
+                var local = _context.Set<DialogueEntry>().Local.FirstOrDefault(x => x.id == id);
+                if(local != null)
+                {
+                    _context.Entry(local).State = EntityState.Detached;
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
                 _context.Entry(dialogueEntry).State = EntityState.Modified;
 
                 try

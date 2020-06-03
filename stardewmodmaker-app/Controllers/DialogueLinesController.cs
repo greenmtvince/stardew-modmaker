@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -102,8 +103,11 @@ namespace stardewmodmaker_app.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<DialogueLine>> PostDialogueLine(DialogueLine dialogueLine)
+        public async Task<ActionResult<DialogueLine>> PostDialogueLine([FromBody] JsonElement data)//int id, DialogueLine dialogueLine)
         {
+            int id = data.GetProperty("id").GetInt32();
+            DialogueLine dialogueLine = data.GetProperty("dialogueLine").ToObject<DialogueLine>();
+
             //Get the User ID
             var userClaims = User.Claims.ToList();
 
@@ -113,7 +117,25 @@ namespace stardewmodmaker_app.Controllers
             {
                 userId = User.Claims.ToList().FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value;
 
+                //var dialogueEntry = _context.Set<DialogueEntry>().Local.FirstOrDefault(x=>x.id==id);
+                var dialogueEntry = await _context.DialogueEntry.FindAsync(id);
+
+                if (dialogueEntry == null)
+                {
+                    return BadRequest();
+                }
+                if( dialogueEntry.ownerId != userId)
+                {
+                    return BadRequest();
+                }
+                //_context.Entry(dialogueEntry).State = EntityState.Detached;
+
                 dialogueLine.ownerId = userId;
+                dialogueLine.DialogueEntry = dialogueEntry;
+
+                //dialogueEntry.DialogueLines.Add(dialogueLine);
+
+                //_context.Entry(dialogueEntry).State = EntityState.Modified;
 
                 _context.DialogueLine.Add(dialogueLine);
                 await _context.SaveChangesAsync();
@@ -160,5 +182,7 @@ namespace stardewmodmaker_app.Controllers
         {
             return _context.DialogueLine.Any(e => e.id == id);
         }
+
+
     }
 }

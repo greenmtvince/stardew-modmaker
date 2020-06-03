@@ -1,0 +1,41 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Portrait</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+            <div class="row">
+                <div *ngFor="let character of characterList" class="col-xs-2" style="text-align: center;" (click)="changeCharacter(character)">
+                    <div class="spriteSelector">
+                        <img src="/Characters/Singles/scaled/{{character}}_single.png"  />
+                    </div>
+                    <span>{{character}}</span>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+</ng-template>
+
+<!-- <div > -->
+    <table (click)="open(content)">
+        <col width="25%">
+        <col width="*">
+        <tr>
+            <td class="portraitBox">
+                <div class="spriteSelector">
+                    <img src="/Characters/Singles/scaled/Select_single.png" *ngIf="characterName==undefined" />
+                    <img src="/Characters/Singles/scaled/{{characterName}}_single.png" *ngIf="characterName" />
+                </div>
+            </td>
+            <td class="nameBox">
+                <h2 *ngIf="characterName==undefined">Select Character</h2>
+                <h2 *ngIf="characterName">{{characterName}}</h2>
+            </td>
+        </tr>
+    </table>
+<!-- </div> -->

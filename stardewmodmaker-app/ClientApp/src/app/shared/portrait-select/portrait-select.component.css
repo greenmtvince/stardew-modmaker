@@ -1,0 +1,7 @@
+.portraitSelect {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+}

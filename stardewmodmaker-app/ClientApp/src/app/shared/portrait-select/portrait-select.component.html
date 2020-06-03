@@ -1,0 +1,19 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Portrait</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <img src="/Portraits/{{characterName}}.png" (click)="getClickedPortait($event)">
+        </div>
+      </form>
+    </div>
+</ng-template>
+
+<div class="portraitSelect">
+    <img src="/Portraits/{{characterName}}.png" [ngStyle]="{'position' : 'relative', 'left' : portraitX+'px', 'top' : portraitY+'px' }" (click)="open(content)"/>
+</div>

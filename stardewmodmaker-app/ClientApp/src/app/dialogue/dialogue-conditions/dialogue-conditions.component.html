@@ -1,0 +1,132 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit Conditions</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div >
+            <input type="radio" id="conditionsType1" name="conditionsType" [value]="1" [(ngModel)]="dialogueConditions.conditionsType" [checked]="dialogueConditions.conditionsType==1" (change)="changeDialogueConditions()"> Standard Conditions
+            <input type="radio" id="conditionsType2" name="conditionsType" [value]="2" [(ngModel)]="dialogueConditions.conditionsType" [checked]="dialogueConditions.conditionsType==2" (change)="changeDialogueConditions()"> Location Specific 
+            <input type="radio" id="conditionsType3" name="conditionsType" [value]="3" [(ngModel)]="dialogueConditions.conditionsType" [checked]="dialogueConditions.conditionsType==3" (change)="changeDialogueConditions()" disabled> Marriage 
+            <input type="radio" id="conditionsType4" name="conditionsType" [value]="4" [(ngModel)]="dialogueConditions.conditionsType" [checked]="dialogueConditions.conditionsType==4" (change)="changeDialogueConditions()"> Special
+        </div>
+        <br/>
+        <!-- Section Headers -->
+        <h5 *ngIf="dialogueConditions.conditionsType==1">Standard Conditions</h5>
+        <h5 *ngIf="dialogueConditions.conditionsType==2">Location Specific</h5>
+        <h5 *ngIf="dialogueConditions.conditionsType==3">Marriage</h5>
+        <h5 *ngIf="dialogueConditions.conditionsType==4">Special Conditions</h5>
+        <!-- Show/Hide Paramaters -->
+        <hr/>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==2">
+            <input type="checkbox" [checked]="dialogueConditions.showCoordinates" (change)="showHideCoordinates()"/>
+            <span> Specific Coordinates </span>
+        </div>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==1">
+            <input type="checkbox" [checked]="dialogueConditions.showSpouse" (change)="showHideSpouse()"/>
+            <span> Spouse </span>
+        </div>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==1">
+            <input type="checkbox" [checked]="dialogueConditions.showFirstYear" (change)="showHideFirstYear()"/>
+            <span> First or Later Year </span>
+        </div>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==1 || dialogueConditions.conditionsType==2">
+            <input type="checkbox" [checked]="dialogueConditions.showSeason" (change)="showHideSeason()"/>
+            <span> Season </span>
+        </div>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==2">
+            <input type="checkbox" [checked]="dialogueConditions.showDayOfWeek" (change)="showHideDayOfWeek()"/>
+            <span> Day of Week </span>
+        </div>
+        <div class="parameterSelector" *ngIf="dialogueConditions.conditionsType==1 || dialogueConditions.conditionsType==2">
+            <input type="checkbox" [checked]="dialogueConditions.showRelationship" (change)="showHideRelationship()"/>
+            <span> Relationship </span>
+        </div>
+        <!-- Special Dialogue Parameters -->
+        <div *ngIf="dialogueConditions.conditionsType==4">
+            <input type="radio" id="special1" name="special" [value]="1" [(ngModel)]="dialogueConditions.specialDialogue" > Dance Rejection
+            <input type="radio" id="special2" name="special" [value]="2" [(ngModel)]="dialogueConditions.specialDialogue" > Divorced
+            <!-- Entry disabled because it's a nonstandard Dialogue display Type -->
+            <input type="radio" id="special3" name="special" [value]="3" [(ngModel)]="dialogueConditions.specialDialogue"  disabled> Location Entry 
+            <input type="radio" id="special4" name="special" [value]="4" [(ngModel)]="dialogueConditions.specialDialogue" > Rain
+            <!-- Gil's Dialogue disabled for special Conditions Handling -->
+            <input type="radio" id="special4" name="special" [value]="5" [(ngModel)]="dialogueConditions.specialDialogue"  disabled > Comeback Later
+            <input type="radio" id="special4" name="special" [value]="6" [(ngModel)]="dialogueConditions.specialDialogue"  disabled > Snoring
+        </div>
+        <!-- Paramater Entry -->
+        
+        <!-- Season -->
+        <div *ngIf="dialogueConditions.showSeason">
+            <span >Season: </span>
+            <select *ngIf="dialogueConditions.showSeason" [(ngModel)]="dialogueConditions.season">
+                <option *ngFor="let season of seasons">{{season}}</option>
+            </select><br/>
+        </div>
+        <!-- Location -->
+        <div *ngIf="dialogueConditions.conditionsType==2">
+            <span >Location</span><br/>
+            <select [(ngModel)]="dialogueConditions.location">
+                <option *ngFor="let location of locations">{{location}}</option>
+            </select>
+        </div >
+        <!-- XY Coordinates -->
+        <div *ngIf="dialogueConditions.showCoordinates">
+            <span> X: </span>
+            <input type="text" name="firstTimeText" [value]="dialogueConditions.x" [(ngModel)]="dialogueConditions.x" >
+            <span> Y: </span>
+            <input type="text" name="textDefault" [value]="dialogueConditions.y" [(ngModel)]="dialogueConditions.y">
+        </div>
+        <!-- inlaw_Spouse -->
+        <div *ngIf="dialogueConditions.showSpouse">
+            <span >Spouse: </span>
+            <select [(ngModel)]="dialogueConditions.spouse">
+                <option *ngFor="let spouse of spouses">{{spouse}}</option>
+            </select>
+        </div>
+        <!-- Day of Week or Day of Month Selector -->
+        <div *ngIf="dialogueConditions.conditionsType==1">
+            <input type="radio" id="generic1" name="generic" [value]="1" [(ngModel)]="dialogueConditions.genericDayType" (change)="changeWeekMonth($event)"> Day of Month
+            <input type="radio" id="generic2" name="generic" [value]="2" [(ngModel)]="dialogueConditions.genericDayType" (change)="changeWeekMonth($event)"> Day of Week 
+        </div>
+        <!-- Day of Month Dropdown -->
+        <div *ngIf="dialogueConditions.genericDayType==1 && dialogueConditions.conditionsType==1">
+            <span >Day of Month: </span>
+            <select [(ngModel)]="dialogueConditions.day" >
+                <option *ngFor="let day of daysOfMonth">{{day}}</option>
+            </select>
+        </div>  
+        <!-- Day of Week Dropdown --> 
+        <div *ngIf="(dialogueConditions.genericDayType==2 && dialogueConditions.conditionsType==1) || dialogueConditions.showDayOfWeek">
+            <span >Day of Week: </span>
+            <select [(ngModel)]="dialogueConditions.dayOfWeek">
+                <option *ngFor="let day of daysOfWeek">{{day}}</option>
+            </select>
+        </div>
+        <!-- Show First or Later Year Selector --> 
+        <div *ngIf="dialogueConditions.showFirstYear">
+            <input type="radio" id="year1" name="year" [value]="1" [(ngModel)]="dialogueConditions.year" [checked]="dialogueConditions.year==1"> First year only
+            <input type="radio" id="year2" name="year" [value]="2" [(ngModel)]="dialogueConditions.year" [checked]="dialogueConditions.year==2"> Second and later years only 
+        </div>    
+        <!-- Relationship Selector -->
+        <div *ngIf="showRelationship">
+            <span>Relationship</span>
+            <ng-template #t let-fill="fill">
+                <span class="star" [class.full]="fill === 100">
+                    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+                </span>
+            </ng-template>
+            <!-- <ngb-rating [(rate)]="currentRate" [starTemplate]="t" [max]="10" [resettable]="true"></ngb-rating> -->
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" (click)="onSave()">Save</button>
+    </div>
+</ng-template>
+
+<img src="/icons/build.png" height="20" (click)="open(content)" *ngIf="!isNew" alt="Edit conditions"/>
+<div *ngIf="isNew" (click)="open(content)"><img src="/icons/plus.png" height="20" alt="Add new dialogue"/> Add New</div>
+<!-- <span  >{{displayText}}</span> -->

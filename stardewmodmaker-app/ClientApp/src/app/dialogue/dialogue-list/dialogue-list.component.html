@@ -1,0 +1,25 @@
+<div *ngIf="selectedCharacter">
+    <div *ngFor="let dialogueEntry of dialogueEntries; let i = index" >
+        <div class="listItem" >
+            <div class="dialogueKey" (click)="selectRow(dialogueEntry, i)">
+                <span>{{dialogueEntry.dialogueKey}}</span>
+            </div>
+            <div class="dialogueConditions">
+                <app-dialogue-conditions  [cloneEntry]="dialogueEntry" [keyList]="keyList" (updateEntry)="updateEntry($event)"></app-dialogue-conditions>
+                <app-dialogue-delete [selectedEntry]="dialogueEntry" (deleteConfirmed)="deleteEntry($event)"></app-dialogue-delete>
+            </div>
+            <div *ngIf="showNumber===i">
+                <ul>
+                    <li *ngFor="let dialogueLine of nonQuestions; let j = index" (click)="selectDialogueLine(dialogueLine, dialogueEntry)">{{j+1}}. {{dialogueLine.textDefault}}</li>
+                    <li (click)="addDialogueLine(newDialogueLine)">New Dialogue Line</li>
+                    <li *ngIf="lastLine.order==255" (click)="selectDialogueLine(lastLine, dialogueEntry)">? {{lastLine.textDefault}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="listItem" *ngIf="selectedCharacter">
+    <div class="dialogueKey">
+        <app-dialogue-conditions [cloneEntry]="newDialogue" (createEntry)="insertEntry($event)" [keyList]="keyList"></app-dialogue-conditions>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<img src="/icons/trash.png" height="20" alt="Delete dialogue" (click)="open(content)"/>
+
+<ng-template #content let-modal>
+    <div class="modal-body">
+        <h5>Confirm Delete Entry: {{selectedEntry.dialogueKey}}</h5>
+      <form>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" (click)="confirmDelete()">Ok</button>
+          <button type="button" class="btn btn-danger"  (click)="modalService.dismissAll('Cancel Delete')">Cancel</button>
+        </div>
+      </form>
+    </div>
+</ng-template>

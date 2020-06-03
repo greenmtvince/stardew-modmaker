@@ -1,0 +1,96 @@
+pre {
+    color: white;
+    background-color: black;
+}
+
+.buttonHolder{
+    display: inline-block;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+    z-index: 100;
+}
+
+.spriteSelector {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 32px;
+    width: 16px;
+    
+    transform: scale(3.5);
+    cursor:url("/Cursors/cursor_dialogue.png"), auto;
+}
+
+.spriteHolder{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateY(-50%), translateX(-50%);
+}
+
+img{
+    image-rendering: pixelated;
+}
+
+.dialogueLines {
+    position: absolute;
+    z-index: 50;
+    left:0;
+}
+
+.dialogueHolder {
+    position: absolute;
+    z-index: 50;
+    background-color: tan;
+    border-width: 4px;
+    border-style: solid;
+    border-color: brown;
+    bottom:0;
+    width: 60%;
+    left:20%;
+    height: 200px;
+    
+}
+
+.portraitHolder {
+    position: absolute;
+    right:0;
+    height: auto;
+    overflow: visible;
+    width: 40%;
+    height: 100%;
+    border-left: brown;
+    border-left-style: solid;
+    border-left-width: 4px;
+}
+
+.portraitBg{
+    width: 100%;
+    z-index: 50;
+}
+
+.portraitSelect {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+    z-index: 60;
+    top: 24%;
+    left: 37%;
+    transform: scale(2.0);
+}
+
+.portraitName {
+    display: block;
+    position: absolute;
+    bottom: -3%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.viewport, .previewView {
+    height: 100%;
+    position: relative;
+}

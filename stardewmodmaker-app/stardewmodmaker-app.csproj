@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200602173922_initialDB.cs" />
     <Compile Remove="Data\Migrations\20200602173922_initialDB.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200602211221_DialogueEntry03.cs" />
+    <Compile Remove="Data\Migrations\20200602211221_DialogueEntry03.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
