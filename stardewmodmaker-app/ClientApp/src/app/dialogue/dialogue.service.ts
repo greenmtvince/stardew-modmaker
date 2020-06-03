@@ -94,18 +94,38 @@ export class DialogueService {
     })
   }
 
-  putDialogueLine(){
+  putDialogueLine(line: DialogueLine){
     console.log(this._selectedDialogueEntry);
-    this.putDialogueEntry(this._selectedDialogueEntry);
+    this.http.put(this.dialogueLineControllerURL+'/'+line.id, line)
+    .subscribe(data => {
+      this._selectedDialogueLine = line;
+      this._selectedDialogueLine.dialogueResponses = data["dialogueResponses"];
+      this._selectedDialogueLine.questionReplies = data["questionReplies"];
+      this.selectedDialogueLine.next(this._selectedDialogueLine);
+      //Update the entry table
+
+    });
   }
 
   deleteDialogueEntry(entry: DialogueEntry){
     this.http.delete<DialogueEntry>(this.dialogueControllerURL+'/'+entry.id)
       .subscribe(data => {
         this._dialogueEntries = this._dialogueEntries.filter(function(ele) {return ele.id != entry.id})
-        this.dialogueEntries.next(this._dialogueEntries);
+        this.dialogueEntries.next(this._dialogueEntries.filter(entry=>entry.characterName == this._selectedCharacter));
       })
 
+  }
+
+  deleteDialogueLine(line: DialogueLine){
+    this.http.delete<DialogueLine>(this.dialogueLineControllerURL+'/'+line.id)
+      .subscribe(data => {
+        if(this._selectedDialogueLine.id === line.id){
+          this._selectedDialogueLine = <DialogueLine>{};
+          this.selectedDialogueLine.next(this._selectedDialogueLine);
+        }
+        this._selectedDialogueEntry.dialogueLines =  this._selectedDialogueEntry.dialogueLines.filter(function(ele) { return ele.id != line.id})
+        this.selectedDialogueEntry.next(this._selectedDialogueEntry);
+      }); 
   }
 
   getSelectedCharacter(): Observable<string>{
@@ -132,6 +152,7 @@ export class DialogueService {
   setSelectedDialogueEntry(selectedEntry: DialogueEntry){
     this._selectedDialogueEntry = selectedEntry;
     this.selectedDialogueEntry.next(selectedEntry);
+    //this.setSelectedDialogueLine(<DialogueLine>{});
   }
 
   setSelectedDialogueLine(selectedLine: DialogueLine){

@@ -9,11 +9,32 @@
                 <app-dialogue-delete [selectedEntry]="dialogueEntry" (deleteConfirmed)="deleteEntry($event)"></app-dialogue-delete>
             </div>
             <div *ngIf="showNumber===i">
+                <hr/>
                 <ul>
-                    <li *ngFor="let dialogueLine of nonQuestions; let j = index" (click)="selectDialogueLine(dialogueLine, dialogueEntry)">{{j+1}}. {{dialogueLine.textDefault}}</li>
-                    <li (click)="addDialogueLine(newDialogueLine)">New Dialogue Line</li>
-                    <li *ngIf="lastLine.order==255" (click)="selectDialogueLine(lastLine, dialogueEntry)">? {{lastLine.textDefault}}</li>
+                    <li *ngFor="let dialogueLine of nonQuestions; let j = index" (click)="selectDialogueLine(dialogueLine, dialogueEntry)">
+                        <div class="dialogueKey">
+                            {{j+1}}. {{dialogueLine.textDefault}}
+                        </div>
+                        <div class="dialogueConditions">
+                            <app-dialogue-delete [selectedEntry]="dialogueLine" (deleteConfirmed)="deleteLine($event)"></app-dialogue-delete>
+                        </div>
+                        
+                    </li>
+                    <li (click)="addDialogueLine(newDialogueLine)">
+                        <img src="/icons/plus.png" height="16" alt="Add new dialogue"/>
+                        New Dialogue Line
+                    </li>
+                    <li *ngIf="lastLine.order==255" (click)="selectDialogueLine(lastLine, dialogueEntry)">
+                        <div class="dialogueKey">
+                            <img src="/icons/question.png" height="16" alt="Add new dialogue"/> {{lastLine.textDefault}}
+                        </div>
+                        <div class="dialogueConditions">
+                            <app-dialogue-delete [selectedEntry]="lastLine" (deleteConfirmed)="deleteLine($event)"></app-dialogue-delete>
+                        </div>
+                        
+                    </li>
                 </ul>
+                <hr/>
             </div>
         </div>
     </div>

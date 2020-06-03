@@ -9,14 +9,16 @@
 }
 .charSel {
     height: 10%;
-    border-width: 2px;
+    border-width: 0px;
     border-style: solid;
     box-shadow: 
-	0 0 0 0px #000,
-	0 0 0 4px brown,
-	0 0 0 6px #000;
-    margin: 6px;
+    0 0 0 2px #eca65f,
+	0 0 0 4px #b14e05,
+	0 0 0 7px #dc7b05,
+	0 0 0 9px #5b2b2a;
+    margin: 9px;
     border-radius: 5px;
+    color: #853605;
 }
 
 .lister{
@@ -32,11 +34,13 @@
     height: 45%;
     overflow-y:auto;
     overflow-x: hidden;
-    background-color:tan;
+    background-color:#e8ca95;
+    color: #853605;
 }
 
 .leftCol {
-    background-color:tan;
+    background-color:#e8ca95;
+    color: #853605;
     left:0;
     width:30%;
 }

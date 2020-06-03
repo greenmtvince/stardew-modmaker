@@ -10,10 +10,10 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class DialogueDeleteComponent implements OnInit {
 
   @Input()
-  selectedEntry: DialogueEntry;
+  selectedEntry;
 
   @Output()
-  deleteConfirmed = new EventEmitter<DialogueEntry>();
+  deleteConfirmed = new EventEmitter<any>();
 
   private closeResult: string = '';
 

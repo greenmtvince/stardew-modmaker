@@ -14,4 +14,9 @@
 
 ul {
     list-style: none;
+    margin-bottom: 2px;
+}
+
+hr {
+    margin: 0.2em;
 }

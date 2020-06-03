@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -70,14 +71,106 @@ namespace stardewmodmaker_app.Controllers
                     return BadRequest();
                 }
 
+                //Get the existing DB Object
+                var existingLine = await _context.DialogueLine.Where(x => x.id == id)
+                    .Include(x => x.dialogueResponses)
+                    .Include(x => x.questionReplies)
+                    .SingleOrDefaultAsync();
+
                 //Check to see if user owns the object
-                var existingLine = await _context.DialogueLine.FindAsync(id);
                 if (existingLine.ownerId != userId)
                 {
-                    return Unauthorized();
+                    return NotFound();
                 }
 
-                _context.Entry(dialogueLine).State = EntityState.Modified;
+                //Check if object exists and set to detached state
+                //var local = _context.Set<DialogueLine>().Local.FirstOrDefault(x => x.id == id);
+                if (existingLine != null)
+                {
+                    //_context.Entry(local).State = EntityState.Detached;
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+                //Set the old values to the new vales
+                _context.Entry(existingLine).CurrentValues.SetValues(dialogueLine);
+
+                //Delete children no longer attached
+                for (int i=0;i<existingLine.dialogueResponses.Count;i++)
+                {
+                    var existingResponse = existingLine.dialogueResponses.ElementAt(i);
+                    if (!dialogueLine.dialogueResponses.Any(x=> x.id == existingResponse.id))
+                    {
+                        
+                        _context.DialogueResponse.Remove(existingResponse);
+                    }
+                }
+                for (int i=0;i<existingLine.questionReplies.Count;i++)
+                //foreach (var existingReply in existingLine.questionReplies)
+                {
+                    var existingReply = existingLine.questionReplies.ElementAt(i);
+                    if (!dialogueLine.questionReplies.Any(x => x.id == existingReply.id))
+                    {
+                        _context.DialogueReply.Remove(existingReply);
+                    }
+                }
+
+                //Update and Insert Children
+                foreach (var response in dialogueLine.dialogueResponses)
+                {
+                    if (response.id == 0)
+                    {
+                        var newResponse = new DialogueResponse
+                        {
+                            followup = response.followup,
+                            portrait = response.portrait,
+                            responseID = response.responseID,
+                            switchGender = response.switchGender,
+                            textDefault = response.textDefault,
+                            textFemale = response.textFemale,
+                            ownerId = userId
+                        };
+                        existingLine.dialogueResponses.Add(newResponse);
+                    }
+                    else
+                    {
+                        var existingResponse = existingLine.dialogueResponses
+                        .Where(x => x.id == response.id)
+                        .SingleOrDefault();
+
+                        if (existingResponse != null)
+                        {
+                            _context.Entry(existingResponse).CurrentValues.SetValues(response);
+                        }
+                    }
+                }
+                foreach (var reply in dialogueLine.questionReplies)
+                {
+                    if (reply.id == 0)
+                    {
+                        var newReply = new DialogueReply
+                        {
+                            text = reply.text,
+                            friendshipBonus = reply.friendshipBonus,
+                            responseId = reply.responseId,
+                            ownerId = userId
+                        };
+                        existingLine.questionReplies.Add(newReply);
+                    }
+                    else
+                    {
+                        var existingReply = existingLine.questionReplies
+                        .Where(x => x.id == reply.id)
+                        .SingleOrDefault();
+
+                        if (existingReply != null && !String.IsNullOrEmpty(existingReply.ownerId))
+                        {
+                            _context.Entry(existingReply).CurrentValues.SetValues(reply);
+                        }
+                    }
+                }
 
                 try
                 {
@@ -94,7 +187,12 @@ namespace stardewmodmaker_app.Controllers
                         throw;
                     }
                 }
-                return dialogueLine;
+                var updatedDialogueLine = await _context.DialogueLine.Where(x => x.id == id)
+                    .Include(x => x.dialogueResponses)
+                    .Include(x => x.questionReplies)
+                    .SingleOrDefaultAsync();
+
+                return updatedDialogueLine;
             }
             return Unauthorized();
         }

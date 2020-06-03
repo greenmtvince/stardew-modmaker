@@ -80,6 +80,8 @@ export class DialogueListComponent implements OnInit {
     this.selectedDialog = selected;
     this.dialogueService.setSelectedDialogueEntry(selected);
     this.showNumber = index;
+    this.selectedLine = <DialogueLine>{};
+    this.dialogueService.setSelectedDialogueLine(this.selectedLine);
   }
 
   selectDialogueLine(selectedLine: DialogueLine, selectedEntry: DialogueEntry){
@@ -137,6 +139,10 @@ export class DialogueListComponent implements OnInit {
 
   deleteEntry(entry: DialogueEntry){
     this.dialogueService.deleteDialogueEntry(entry);
+  }
+
+  deleteLine(line: DialogueLine){
+    this.dialogueService.deleteDialogueLine(line);
   }
 
   updateEntry(entry: DialogueEntry){
